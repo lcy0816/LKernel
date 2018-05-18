@@ -2,7 +2,7 @@
 #include <inc/elf.h>
 
 // bootloader to boot an ELF kernel image from the first IDE hard disk
-// boot.S and main.c togather is the bootloader. It should be stored in the first sector of the disk.
+// boot.S and main.c together is the bootloader. It should be stored in the first sector of the disk.
 // 2nd sector onward holds the kernel image. The kernel image must be in ELF format
 
 // boot up steps

@@ -40,18 +40,19 @@ seta20.2:
   # switch from real to protected mode, using a bootstrap GDT and segment translation
   # that makes virtual addresses identical to physical addresses
   lgdt	gdtdesc
+  # CR0 bit 0 represents protection mode, set cr0 to 0x1 to enable the protection mode
   movl	%cr0, %eax 
   orl	$CR0_PE_ON, %eax
   movl	%eax, %cr0
 
   # jump to next instruction, but in 32-bit code segment
   # switches process into 32-bit mode
-  ljmp	$PROT_MODE_CSEG, $protcseg 
+  ljmp	$PROT_MODE_CSEG, $protcseg # jump to kernel code segment
 
   .code32				# assemble for 32-bit mode
 protcseg:
   # set up the protected-mode data segment registers
-  movw	$PROT_MODE_DSEG, %ax	# data segment selector
+  movw	$PROT_MODE_DSEG, %ax	 # data segment selector
   movw	%ax, %ds 			# data segment
   movw	%ax, %es 			# extra segment
   movw	%ax, %fs 			# fs
@@ -70,9 +71,9 @@ spin:
 .p2align 2				# force 4 byte alignment
 gdt:
   SEG_NULL				# null seg
-  SEG(STA_X | STA_R, 0x0, 0xffffffff)	# code seg
-  SEG(STA_W, 0x0, 0xffffffff)		# data seg
+  SEG(STA_X | STA_R, 0x0, 0xffffffff)	# code seg, index 0x8
+  SEG(STA_W, 0x0, 0xffffffff)		# data seg, index 0x10
 
 gdtdesc:
   .word	0x17				# sizeof(gdt) - 1
-  .long	gdt 				# address gdt
+  .long	gdt 				# address gdt, every 8-byte entry in the gdt is a descriptor, 3 descriptor in this case
