@@ -131,8 +131,8 @@ struct Segdesc {
 	unsigned sd_lim_19_16 : 4; // high bits of segment limit
 	unsigned sd_avl : 1; // unused
 	unsigned sd_rsv1 : 1; // reserved
-	unsigned sd_db : 1 // 0 = 16-bit segment, 1 = 32-bit segment
-	unsigned sd_g : 1; // granuarity: limit scaled by 4K when set
+	unsigned sd_db : 1; // 0 = 16-bit segment, 1 = 32-bit segment
+	unsigned sd_g : 1; // granularity: limit scaled by 4K when set
 	unsigned sd_base_31_24 : 8; // high bits of segment base address
 };
 
@@ -165,7 +165,7 @@ struct Segdesc {
 #define STS_LDT	0x2	    // Local Descriptor Table
 #define STS_T16B	0x3	    // Busy 16-bit TSS
 #define STS_CG16	0x4	    // 16-bit Call Gate
-#define STS_TG		0x5	    // Task Gate / Coum Transmitions
+#define STS_TG		0x5	    // Task Gate
 #define STS_IG16	0x6	    // 16-bit Interrupt Gate
 #define STS_TG16	0x7	    // 16-bit Trap Gate
 #define STS_T32A	0x9	    // Available 32-bit TSS

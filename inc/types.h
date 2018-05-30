@@ -38,15 +38,15 @@ typedef int32_t off_t;
 
 #define MIN(_a, _b)			\
 ({					\
-	typeof(_a) __a = (_a);		\	
-	typeof(_b) __b = (_b);		\
+	typeof(_a) __a = (_a);		\
+	typeof(_b) __b = (_b);	\
 	__a<=__b ? __a : __b;		\
 })
 
 #define MAX(_a, _b)			\
 ({					\
-	typeof(_a) __a = (_a);		\	
-	typeof(_b) __b = (_b);		\
+	typeof(_a) __a = (_a);		\
+	typeof(_b) __b = (_b);	\
 	__a>=__b ? __a : __b;		\
 })
 

@@ -411,7 +411,7 @@ int getchar(void)
 {
 	int c;
 	while ((c = cons_getc()) == 0)
-		// do nothing
+		;// do nothing
 	return c;
 }
 

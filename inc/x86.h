@@ -109,12 +109,12 @@ static inline void lgdt(void *p)
 
 static inline void lldt(uint16_t sel)
 {
-	asm volatile("lldt %0" :: "r" (p));
+	asm volatile("lldt %0" :: "r" (sel));
 }
 
 static inline void ltr(uint16_t sel)
 {
-	asm volatile("ltr %0" :: "r" (p));
+	asm volatile("ltr %0" :: "r" (sel));
 }
 
 static inline void lcr0(uint32_t val) // set rc0
@@ -122,7 +122,7 @@ static inline void lcr0(uint32_t val) // set rc0
 	asm volatile("movl %0, %%cr0" :: "r" (val));
 }
 
-static inline void rcr0(void) // read rc0
+static inline uint32_t rcr0(void) // read rc0
 {
 	uint32_t val;
 	asm volatile("movl %%cr0, %0" : "=r" (val));
@@ -143,7 +143,9 @@ static inline void lcr3(uint32_t val) // set cr3
 
 static inline uint32_t rcr3(void) // read cr3
 {
+	uint32_t val;
 	asm volatile("movl %%cr3, %0" : "=r" (val));
+	return val;
 }
 
 static inline void lcr4(uint32_t val) // set cr4
@@ -214,7 +216,7 @@ static inline uint64_t read_tsc(void)
 	return tsc;
 }
 
-static inline uint32_t xchg(volatile uint32_t *addr, uint32_t newal)
+static inline uint32_t xchg(volatile uint32_t *addr, uint32_t newval)
 {
 	uint32_t result;
 

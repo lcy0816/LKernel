@@ -39,7 +39,7 @@ static inline void* _kaddr(const char *file, int line, physaddr_t pa)
 }
 
 enum {
-	ALLOC_ZERO = 1 << 0;
+	ALLOC_ZERO = 1 << 0,
 };
 
 void mem_init(void);
@@ -71,3 +71,6 @@ static inline void* page2kva(struct PageInfo *pp)
 	return KADDR(page2pa(pp));
 }
 
+pte_t *pgdir_walk(pde_t *pgdir, const void *va, int create);
+
+#endif

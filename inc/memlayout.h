@@ -53,7 +53,7 @@
 // leave empty pages to guard against exception stack overflow
 
 // top pf normal user stack
-#define UXSTACKTOP	(UTOP - 2 * PGSIZE)
+#define USTACKTOP	(UTOP - 2 * PGSIZE)
 
 // user programs begin
 #define UTEXT		(2 * PTSIZE)

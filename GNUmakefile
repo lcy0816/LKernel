@@ -80,11 +80,20 @@ all:
 KERN_CFLAGS := $(CFLAGS) -DJOS_KERNEL -gstabs
 USER_CFLAGS := $(CFLAGS) -DJOS_USER -gstabs
 
-include boot/Makefrag
+$(OBJDIR)/.vars.%: FORCE
+	$(V)echo "$($*)" | cmp -s $@ || echo "$($*)" > $@
+.PRECIOUS: $(OBJDIR)/.vars.%
+.PHONY: FORCE
 
+include boot/Makefrag
+include kern/Makefrag
+
+QEMUOPTS = -drive file=$(OBJDIR)/kern/kernel.img,index=0,media=disk,format=raw -serial mon:stdio -gdb tcp::$(GDBPORT)
 IMAGES = $(OBJDIR)/kern/kernel.img
 
 clean:
 	rm -rf $(OBJDIR) .gdbinit jos.in qemu.log
+
+.PHONY: all clean
 
 

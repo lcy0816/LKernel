@@ -279,7 +279,7 @@ static void check_page_free_list(bool only_low_memory)
 {
 	struct PageInfo *pp;
 	unsigned pdx_limit = only_low_memory ? 1 : NPDENTRIES;
-	int nfree_basemem = 0; nfree_extmem = 0;
+	int nfree_basemem = 0, nfree_extmem = 0;
 	char *first_free_page;
 
 	if (!page_free_list)
@@ -300,7 +300,7 @@ static void check_page_free_list(bool only_low_memory)
 	}
 
 	// if there's a page that shouldn't be on the free list, try to make sure it eventually cause trouble
-	for (pp = page_free_list; pp; pp = pp_link)
+	for (pp = page_free_list; pp; pp = pp->pp_link)
 		if (PDX(page2pa(pp)) < pdx_limit)
 			memset(page2kva(pp), 0x97, 128);
 
@@ -375,7 +375,7 @@ static void check_page_alloc(void)
 	assert((pp1 = page_alloc(0)));
 	assert((pp2 = page_alloc(0)));
 	assert(pp0);
-	assert(pp1 & pp1 != pp0);
+	assert(pp1 && pp1 != pp0);
 	assert(pp2 && pp2 != pp1 && pp2 != pp0);
 	assert(!page_alloc(0));
 
@@ -455,9 +455,9 @@ static physaddr_t check_va2pa(pde_t *pgdir, uintptr_t va)
 	if (!(*pgdir & PTE_P))
 		return ~0;
 	p = (pte_t*) KADDR(PTE_ADDR(*pgdir));
-	if (!(p[PTX(val)] & PTE_P))
+	if (!(p[PTX(va)] & PTE_P))
 		return ~0;
-	return PTE_ADDR(p[PTX(val)]);
+	return PTE_ADDR(p[PTX(va)]);
 }
 
 // check page_insert, page_remove
