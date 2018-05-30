@@ -39,6 +39,8 @@ CC	:= $(GCCPREFIX)gcc -pipe
 AS	:= $(GCCPREFIX)as
 AR	:= $(GCCPREFIX)ar
 LD	:= $(GCCPREFIX)ld
+OBJCOPY	:= $(GCCPREFIX)objcopy
+OBJDUMP	:= $(GCCPREFIX)objdump
 NM	:= $(GCCPREFIX)nm
 
 NCC	:= gcc $(CC_VER) -pipe
@@ -88,7 +90,6 @@ $(OBJDIR)/.vars.%: FORCE
 include boot/Makefrag
 include kern/Makefrag
 
-QEMUOPTS = -drive file=$(OBJDIR)/kern/kernel.img,index=0,media=disk,format=raw -serial mon:stdio -gdb tcp::$(GDBPORT)
 IMAGES = $(OBJDIR)/kern/kernel.img
 
 clean:

@@ -63,16 +63,15 @@ protcseg:
   movl	$start, %esp
   call bootmain
 
-  # if bootmain returns (it shouldn't), loop
 spin:
   jmp spin
 
 # bootstrap GDT
 .p2align 2				# force 4 byte alignment
 gdt:
-  SEG_NULL				# null seg
-  SEG(STA_X | STA_R, 0x0, 0xffffffff)	# code seg, index 0x8
-  SEG(STA_W, 0x0, 0xffffffff)		# data seg, index 0x10
+  SEG_NULL			# null seg
+  SEG(STA_X|STA_R, 0x0, 0xffffffff) # code seg index 0x8
+  SEG(STA_W, 0x0, 0xffffffff) # data seg index 0x10
 
 gdtdesc:
   .word	0x17				# sizeof(gdt) - 1
